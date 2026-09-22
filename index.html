@@ -3,16 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>DBotProfit Live Analysis</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
   font-family:Arial,sans-serif;
   background:#080d18;
-  color:white;
+  color:#fff;
 }
 
 header{
@@ -41,8 +45,8 @@ main{
 }
 
 h1{
-  font-size:28px;
   margin:10px 0 5px;
+  font-size:28px;
 }
 
 .subtitle{
@@ -95,11 +99,11 @@ select{
 .card h3{
   margin:0 0 10px;
   color:#9eabc3;
-  font-size:14px;
+  font-size:13px;
 }
 
 .number{
-  font-size:25px;
+  font-size:24px;
   font-weight:bold;
 }
 
@@ -127,6 +131,61 @@ select{
 .digit span{
   font-size:12px;
   color:#8e9ab3;
+}
+
+.chartBox{
+  width:100%;
+  height:260px;
+  background:#080d18;
+  border:1px solid #202a40;
+  border-radius:12px;
+  padding:10px;
+}
+
+canvas{
+  width:100%;
+  height:100%;
+}
+
+.recent{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:15px;
+}
+
+.recentDigit{
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  background:#0b1220;
+  border:1px solid #293650;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  color:#35e0a1;
+}
+
+.rangeButtons{
+  display:flex;
+  gap:8px;
+  margin-top:15px;
+}
+
+.rangeButtons button{
+  flex:1;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #34405c;
+  background:#1b263d;
+  color:white;
+  cursor:pointer;
+}
+
+.rangeButtons button.active{
+  background:#35e0a1;
+  color:#07131a;
 }
 
 .buttons{
@@ -164,93 +223,285 @@ footer{
 }
 
 @media(max-width:500px){
+
   .buttons{
     grid-template-columns:1fr;
   }
+
+  .digits{
+    grid-template-columns:repeat(5,1fr);
+  }
+
 }
+
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo">DBotProfit</div>
-  <div class="status" id="status">● Connecting...</div>
+
+<div class="logo">
+DBotProfit
+</div>
+
+<div class="status" id="status">
+● Connecting...
+</div>
+
 </header>
 
 <main>
 
-<h1>Live Trading Dashboard</h1>
+<h1>
+Live Trading Dashboard
+</h1>
 
 <div class="subtitle">
-  Real-time Deriv market data & digit statistics
+Real-time Deriv market analysis workspace
 </div>
+
+
+<!-- MARKET -->
 
 <div class="panel">
 
 <h3>Market</h3>
 
 <select id="market">
-  <option value="1HZ10V">Volatility 10 Index</option>
-  <option value="1HZ25V">Volatility 25 Index</option>
-  <option value="1HZ50V">Volatility 50 Index</option>
-  <option value="1HZ75V">Volatility 75 Index</option>
-  <option value="1HZ100V">Volatility 100 Index</option>
+
+<option value="1HZ10V">
+Volatility 10 Index
+</option>
+
+<option value="1HZ25V">
+Volatility 25 Index
+</option>
+
+<option value="1HZ50V">
+Volatility 50 Index
+</option>
+
+<option value="1HZ75V">
+Volatility 75 Index
+</option>
+
+<option value="1HZ100V">
+Volatility 100 Index
+</option>
+
 </select>
 
-<div class="price" id="price">--</div>
+<div class="price" id="price">
+--
+</div>
 
 <div class="last">
-Last Digit: <span id="lastDigit">--</span>
+Last Digit:
+<span id="lastDigit">--</span>
 </div>
 
 </div>
+
+
+<!-- CHART -->
 
 <div class="panel">
 
-<h2>Digit Statistics</h2>
+<h2>
+Live Price Chart
+</h2>
 
-<div class="digits" id="digits"></div>
+<div class="chartBox">
+
+<canvas id="chart"></canvas>
 
 </div>
+
+</div>
+
+
+<!-- DIGIT STATISTICS -->
+
+<div class="panel">
+
+<h2>
+Digit Statistics
+</h2>
+
+<div class="digits" id="digits">
+</div>
+
+</div>
+
+
+<!-- ANALYSIS -->
 
 <div class="grid">
 
 <div class="card">
-<h3>MATCHES</h3>
-<div class="number" id="matches">--%</div>
+
+<h3>
+MATCHES
+</h3>
+
+<div class="number" id="matches">
+--%
 </div>
+
+</div>
+
 
 <div class="card">
-<h3>DIFFERS</h3>
-<div class="number" id="differs">--%</div>
+
+<h3>
+DIFFERS
+</h3>
+
+<div class="number" id="differs">
+--%
 </div>
+
+</div>
+
 
 <div class="card">
-<h3>RECENT DIGITS</h3>
-<div class="number" id="recent">--</div>
+
+<h3>
+EVEN
+</h3>
+
+<div class="number" id="even">
+--%
 </div>
+
+</div>
+
 
 <div class="card">
-<h3>MARKET STATUS</h3>
-<div class="number" id="marketStatus">READY</div>
+
+<h3>
+ODD
+</h3>
+
+<div class="number" id="odd">
+--%
 </div>
 
 </div>
+
+
+<div class="card">
+
+<h3>
+OVER 5
+</h3>
+
+<div class="number" id="over">
+--%
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+UNDER 5
+</h3>
+
+<div class="number" id="under">
+--%
+</div>
+
+</div>
+
+</div>
+
+
+<!-- RECENT DIGITS -->
 
 <div class="panel">
 
-<h2>Trading Tools</h2>
+<h2>
+Recent Digits
+</h2>
+
+<div class="rangeButtons">
+
+<button id="b20" class="active">
+20
+</button>
+
+<button id="b50">
+50
+</button>
+
+<button id="b100">
+100
+</button>
+
+</div>
+
+<div class="recent" id="recent">
+</div>
+
+</div>
+
+
+<!-- STATUS -->
+
+<div class="grid">
+
+<div class="card">
+
+<h3>
+TICKS RECEIVED
+</h3>
+
+<div class="number" id="tickCount">
+0
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+MARKET STATUS
+</h3>
+
+<div class="number" id="marketStatus">
+READY
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TOOLS -->
+
+<div class="panel">
+
+<h2>
+Trading Tools
+</h2>
 
 <div class="buttons">
 
-<a class="button deriv"
-href="https://t.deriv.link?t=BDLEFSWB873B">
+<a
+class="button deriv"
+href="https://t.deriv.link?t=BDLEFSWB873B"
+>
 Open Deriv
 </a>
 
-<button class="button refresh"
-onclick="location.reload()">
+<button
+class="button refresh"
+onclick="location.reload()"
+>
 Refresh
 </button>
 
@@ -260,164 +511,675 @@ Refresh
 
 </main>
 
+
 <footer>
+
 © 2026 DBotProfit — Live Analysis Workspace
+
 </footer>
+
 
 <script>
 
-const ws = new WebSocket(
-  "wss://api.derivws.com/trading/v1/options/ws/public"
-);
+const WS_URL =
+"wss://api.derivws.com/trading/v1/options/ws/public";
+
+
+let ws;
+
+let selectedSymbol =
+"1HZ10V";
 
 let digits = [];
-let selectedSymbol = "1HZ10V";
 
-const statusEl = document.getElementById("status");
-const priceEl = document.getElementById("price");
-const lastDigitEl = document.getElementById("lastDigit");
-const recentEl = document.getElementById("recent");
-const matchesEl = document.getElementById("matches");
-const differsEl = document.getElementById("differs");
-const marketStatusEl = document.getElementById("marketStatus");
+let prices = [];
 
-function drawDigits(){
+let displayCount = 20;
 
-  const container = document.getElementById("digits");
+let tickCounter = 0;
 
-  container.innerHTML = "";
 
-  for(let i=0;i<10;i++){
+const statusEl =
+document.getElementById("status");
 
-    const count = digits.filter(d => d === i).length;
+const priceEl =
+document.getElementById("price");
 
-    const percent = digits.length
-      ? ((count / digits.length) * 100).toFixed(1)
-      : "0.0";
+const lastDigitEl =
+document.getElementById("lastDigit");
 
-    container.innerHTML += `
-      <div class="digit">
-        <strong>${i}</strong>
-        <span>${percent}%</span>
-      </div>
-    `;
-  }
+const marketStatusEl =
+document.getElementById("marketStatus");
 
-  if(digits.length){
+const tickCountEl =
+document.getElementById("tickCount");
 
-    const last = digits[digits.length - 1];
+const chart =
+document.getElementById("chart");
 
-    const same = digits.filter(d => d === last).length;
+const ctx =
+chart.getContext("2d");
 
-    const matchPercent =
-      ((same / digits.length) * 100).toFixed(1);
 
-    const differPercent =
-      (100 - Number(matchPercent)).toFixed(1);
+function connect(){
 
-    matchesEl.textContent = matchPercent + "%";
-    differsEl.textContent = differPercent + "%";
+if(ws){
 
-    recentEl.textContent =
-      digits.slice(-10).join(" ");
-  }
+try{
+ws.close();
+}catch(e){}
+
 }
 
-function subscribe(symbol){
+statusEl.textContent =
+"● Connecting...";
 
-  selectedSymbol = symbol;
+marketStatusEl.textContent =
+"CONNECTING";
 
-  digits = [];
 
-  priceEl.textContent = "--";
-  lastDigitEl.textContent = "--";
-  matchesEl.textContent = "--%";
-  differsEl.textContent = "--%";
-  recentEl.textContent = "--";
+ws =
+new WebSocket(WS_URL);
 
-  ws.send(JSON.stringify({
-    ticks: symbol,
-    subscribe: 1
-  }));
-}
 
 ws.onopen = function(){
 
-  statusEl.textContent = "● LIVE";
-  marketStatusEl.textContent = "LIVE";
+statusEl.textContent =
+"● LIVE";
 
-  subscribe(selectedSymbol);
+marketStatusEl.textContent =
+"LIVE";
+
+
+requestHistory();
+
+subscribeTicks();
+
 };
+
 
 ws.onmessage = function(event){
 
-  const data = JSON.parse(event.data);
+try{
 
-  if(data.msg_type === "tick"){
+const data =
+JSON.parse(event.data);
 
-    const tick = data.tick;
 
-    const quote = Number(tick.quote);
+if(data.msg_type === "history"){
 
-    priceEl.textContent = quote;
+if(
+data.history &&
+Array.isArray(data.history.prices)
+){
 
-    const decimalText = String(tick.quote);
+data.history.prices.forEach(function(price){
 
-    const lastCharacter =
-      decimalText.replace(/\D/g,"").slice(-1);
-
-    const lastDigit = Number(lastCharacter);
-
-    if(!Number.isNaN(lastDigit)){
-
-      lastDigitEl.textContent = lastDigit;
-
-      digits.push(lastDigit);
-
-      if(digits.length > 100){
-        digits.shift();
-      }
-
-      drawDigits();
-    }
-  }
-
-  if(data.error){
-
-    statusEl.textContent = "● ERROR";
-
-    marketStatusEl.textContent = "ERROR";
-
-    console.log(data.error);
-  }
-};
-
-ws.onerror = function(){
-
-  statusEl.textContent = "● CONNECTION ERROR";
-
-  marketStatusEl.textContent = "OFFLINE";
-};
-
-ws.onclose = function(){
-
-  statusEl.textContent = "● DISCONNECTED";
-
-  marketStatusEl.textContent = "OFFLINE";
-};
-
-document.getElementById("market")
-.addEventListener("change",function(){
-
-  const symbol = this.value;
-
-  subscribe(symbol);
+addPrice(price);
 
 });
 
-drawDigits();
+}
+
+}
+
+
+if(data.msg_type === "tick"){
+
+if(!data.tick){
+return;
+}
+
+const quote =
+Number(data.tick.quote);
+
+if(!Number.isFinite(quote)){
+return;
+}
+
+
+priceEl.textContent =
+data.tick.quote;
+
+
+addPrice(quote);
+
+
+const digit =
+getLastDigit(
+data.tick.quote,
+data.tick.pip_size
+);
+
+
+if(digit !== null){
+
+digits.push(digit);
+
+if(digits.length > 100){
+
+digits.shift();
+
+}
+
+lastDigitEl.textContent =
+digit;
+
+tickCounter++;
+
+tickCountEl.textContent =
+tickCounter;
+
+drawAnalysis();
+
+drawRecent();
+
+}
+
+}
+
+if(data.error){
+
+statusEl.textContent =
+"● ERROR";
+
+marketStatusEl.textContent =
+"ERROR";
+
+console.log(data.error);
+
+}
+
+}catch(error){
+
+console.log(error);
+
+}
+
+};
+
+
+ws.onerror = function(){
+
+statusEl.textContent =
+"● CONNECTION ERROR";
+
+marketStatusEl.textContent =
+"OFFLINE";
+
+};
+
+
+ws.onclose = function(){
+
+statusEl.textContent =
+"● DISCONNECTED";
+
+marketStatusEl.textContent =
+"OFFLINE";
+
+};
+
+}
+
+
+function requestHistory(){
+
+ws.send(
+JSON.stringify({
+
+ticks_history:
+selectedSymbol,
+
+end:
+"latest",
+
+count:
+100,
+
+style:
+"ticks",
+
+subscribe:
+0
+
+})
+);
+
+}
+
+
+function subscribeTicks(){
+
+ws.send(
+JSON.stringify({
+
+ticks:
+selectedSymbol,
+
+subscribe:
+1
+
+})
+);
+
+}
+
+
+function addPrice(price){
+
+prices.push(Number(price));
+
+if(prices.length > 100){
+
+prices.shift();
+
+}
+
+drawChart();
+
+}
+
+
+function getLastDigit(quote,pipSize){
+
+let text =
+String(quote);
+
+let clean =
+text.replace(/[^0-9]/g,"");
+
+if(!clean){
+
+return null;
+
+}
+
+return Number(
+clean.charAt(clean.length - 1)
+);
+
+}
+
+
+function drawAnalysis(){
+
+const container =
+document.getElementById("digits");
+
+container.innerHTML =
+"";
+
+
+for(let i=0;i<10;i++){
+
+const count =
+digits.filter(
+d => d === i
+).length;
+
+
+const percent =
+digits.length
+
+?
+((count / digits.length)*100)
+.toFixed(1)
+
+:
+"0.0";
+
+
+container.innerHTML += `
+
+<div class="digit">
+
+<strong>${i}</strong>
+
+<span>${percent}%</span>
+
+</div>
+
+`;
+
+}
+
+
+if(!digits.length){
+
+return;
+
+}
+
+
+const last =
+digits[digits.length - 1];
+
+
+const same =
+digits.filter(
+d => d === last
+).length;
+
+
+const matches =
+(same / digits.length)*100;
+
+
+const differs =
+100 - matches;
+
+
+const evenCount =
+digits.filter(
+d => d % 2 === 0
+).length;
+
+
+const oddCount =
+digits.filter(
+d => d % 2 !== 0
+).length;
+
+
+const overCount =
+digits.filter(
+d => d > 5
+).length;
+
+
+const underCount =
+digits.filter(
+d => d < 5
+).length;
+
+
+document.getElementById("matches")
+.textContent =
+matches.toFixed(1)+"%";
+
+
+document.getElementById("differs")
+.textContent =
+differs.toFixed(1)+"%";
+
+
+document.getElementById("even")
+.textContent =
+((evenCount/digits.length)*100)
+.toFixed(1)+"%";
+
+
+document.getElementById("odd")
+.textContent =
+((oddCount/digits.length)*100)
+.toFixed(1)+"%";
+
+
+document.getElementById("over")
+.textContent =
+((overCount/digits.length)*100)
+.toFixed(1)+"%";
+
+
+document.getElementById("under")
+.textContent =
+((underCount/digits.length)*100)
+.toFixed(1)+"%";
+
+}
+
+
+function drawRecent(){
+
+const container =
+document.getElementById("recent");
+
+container.innerHTML =
+"";
+
+
+const recent =
+digits.slice(-displayCount);
+
+
+recent.forEach(function(digit){
+
+const item =
+document.createElement("div");
+
+item.className =
+"recentDigit";
+
+item.textContent =
+digit;
+
+container.appendChild(item);
+
+});
+
+}
+
+
+function resizeCanvas(){
+
+const rect =
+chart.getBoundingClientRect();
+
+const ratio =
+window.devicePixelRatio || 1;
+
+chart.width =
+rect.width * ratio;
+
+chart.height =
+rect.height * ratio;
+
+ctx.setTransform(
+ratio,
+0,
+0,
+ratio,
+0,
+0
+);
+
+drawChart();
+
+}
+
+
+function drawChart(){
+
+if(!prices.length){
+return;
+}
+
+
+const rect =
+chart.getBoundingClientRect();
+
+const width =
+rect.width;
+
+const height =
+rect.height;
+
+
+ctx.clearRect(
+0,
+0,
+width,
+height
+);
+
+
+const min =
+Math.min(...prices);
+
+const max =
+Math.max(...prices);
+
+const range =
+max - min || 1;
+
+
+ctx.beginPath();
+
+
+prices.forEach(
+function(price,index){
+
+const x =
+(index/(prices.length-1 || 1))
+*width;
+
+
+const y =
+height -
+((price-min)/range)
+*(height-20)
+-10;
+
+
+if(index===0){
+
+ctx.moveTo(x,y);
+
+}else{
+
+ctx.lineTo(x,y);
+
+}
+
+}
+);
+
+
+ctx.strokeStyle =
+"#35e0a1";
+
+ctx.lineWidth =
+2;
+
+ctx.stroke();
+
+}
+
+
+document
+.getElementById("market")
+.addEventListener(
+"change",
+function(){
+
+selectedSymbol =
+this.value;
+
+digits = [];
+
+prices = [];
+
+tickCounter = 0;
+
+priceEl.textContent =
+"--";
+
+lastDigitEl.textContent =
+"--";
+
+tickCountEl.textContent =
+"0";
+
+drawAnalysis();
+
+drawRecent();
+
+connect();
+
+}
+);
+
+
+document
+.getElementById("b20")
+.addEventListener(
+"click",
+function(){
+
+displayCount=20;
+
+setActiveButton("b20");
+
+drawRecent();
+
+}
+);
+
+
+document
+.getElementById("b50")
+.addEventListener(
+"click",
+function(){
+
+displayCount=50;
+
+setActiveButton("b50");
+
+drawRecent();
+
+}
+);
+
+
+document
+.getElementById("b100")
+.addEventListener(
+"click",
+function(){
+
+displayCount=100;
+
+setActiveButton("b100");
+
+drawRecent();
+
+}
+);
+
+
+function setActiveButton(id){
+
+document
+.querySelectorAll(".rangeButtons button")
+.forEach(
+button =>
+button.classList.remove("active")
+);
+
+document
+.getElementById(id)
+.classList.add("active");
+
+}
+
+
+window.addEventListener(
+"resize",
+resizeCanvas
+);
+
+
+resizeCanvas();
+
+drawAnalysis();
+
+drawRecent();
+
+connect();
 
 </script>
 
 </body>
-</html>
+  </html>
