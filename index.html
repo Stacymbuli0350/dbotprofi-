@@ -3,16 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DBotProfit Dashboard</title>
+<title>DBotProfit Live Analysis</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial,sans-serif;
   background:#080d18;
-  color:#fff;
+  color:white;
 }
+
 header{
   padding:18px;
   border-bottom:1px solid #202a40;
@@ -20,28 +22,34 @@ header{
   justify-content:space-between;
   align-items:center;
 }
+
 .logo{
   color:#35e0a1;
   font-size:24px;
   font-weight:bold;
 }
+
 .status{
-  font-size:13px;
   color:#35e0a1;
+  font-size:13px;
 }
+
 main{
   max-width:1100px;
   margin:auto;
   padding:20px;
 }
+
 h1{
-  margin:10px 0 5px;
   font-size:28px;
+  margin:10px 0 5px;
 }
+
 .subtitle{
   color:#8e9ab3;
   margin-bottom:25px;
 }
+
 .panel{
   background:#111a2d;
   border:1px solid #202a40;
@@ -49,6 +57,7 @@ h1{
   padding:18px;
   margin-bottom:18px;
 }
+
 select{
   width:100%;
   padding:13px;
@@ -58,41 +67,49 @@ select{
   border-radius:9px;
   font-size:16px;
 }
+
 .price{
   font-size:36px;
   font-weight:bold;
   margin:15px 0 5px;
 }
+
 .last{
   color:#35e0a1;
   font-size:18px;
 }
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
   gap:12px;
 }
+
 .card{
   background:#0c1425;
   border:1px solid #202a40;
   border-radius:12px;
   padding:15px;
 }
+
 .card h3{
   margin:0 0 10px;
   color:#9eabc3;
   font-size:14px;
 }
+
 .number{
   font-size:25px;
   font-weight:bold;
 }
+
 .digits{
   display:grid;
   grid-template-columns:repeat(5,1fr);
   gap:8px;
   margin-top:15px;
 }
+
 .digit{
   background:#0b1220;
   border:1px solid #293650;
@@ -100,20 +117,24 @@ select{
   padding:12px 5px;
   text-align:center;
 }
+
 .digit strong{
   display:block;
   font-size:20px;
   color:#35e0a1;
 }
+
 .digit span{
   font-size:12px;
   color:#8e9ab3;
 }
+
 .buttons{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
 }
+
 .button{
   display:block;
   text-align:center;
@@ -122,21 +143,30 @@ select{
   text-decoration:none;
   font-weight:bold;
 }
+
 .deriv{
   background:#35e0a1;
   color:#07131a;
 }
+
 .refresh{
   background:#1b263d;
   color:white;
   border:1px solid #34405c;
   cursor:pointer;
 }
+
 footer{
   text-align:center;
   padding:25px;
   color:#66738d;
   font-size:13px;
+}
+
+@media(max-width:500px){
+  .buttons{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
@@ -145,136 +175,249 @@ footer{
 
 <header>
   <div class="logo">DBotProfit</div>
-  <div class="status">● Dashboard</div>
+  <div class="status" id="status">● Connecting...</div>
 </header>
 
 <main>
 
-<h1>Trading Dashboard</h1>
+<h1>Live Trading Dashboard</h1>
+
 <div class="subtitle">
-  Digit market analysis workspace
+  Real-time Deriv market data & digit statistics
 </div>
 
 <div class="panel">
-  <h3>Market</h3>
 
-  <select id="market">
-    <option>Volatility 10 Index</option>
-    <option>Volatility 25 Index</option>
-    <option>Volatility 50 Index</option>
-    <option>Volatility 75 Index</option>
-    <option>Volatility 100 Index</option>
-  </select>
+<h3>Market</h3>
 
-  <div class="price" id="price">--</div>
-  <div class="last">Last Digit: <span id="lastDigit">--</span></div>
+<select id="market">
+  <option value="1HZ10V">Volatility 10 Index</option>
+  <option value="1HZ25V">Volatility 25 Index</option>
+  <option value="1HZ50V">Volatility 50 Index</option>
+  <option value="1HZ75V">Volatility 75 Index</option>
+  <option value="1HZ100V">Volatility 100 Index</option>
+</select>
+
+<div class="price" id="price">--</div>
+
+<div class="last">
+Last Digit: <span id="lastDigit">--</span>
+</div>
+
 </div>
 
 <div class="panel">
-  <h2>Digit Statistics</h2>
 
-  <div class="digits">
+<h2>Digit Statistics</h2>
 
-    <div class="digit">
-      <strong>0</strong>
-      <span>--%</span>
-    </div>
+<div class="digits" id="digits"></div>
 
-    <div class="digit">
-      <strong>1</strong>
-      <span>--%</span>
-    </div>
-
-    <div class="digit">
-      <strong>2</strong>
-      <span>--%</span>
-    </div>
-
-    <div class="digit">
-      <strong>3</strong>
-      <span>--%</span>
-    </div>
-
-    <div class="digit">
-      <strong>4</strong>
-      <span>--%</span>
-    </div>
-
-    <div class="digit">
-      <strong>5</strong>
-      <span>--%</span>
-    </div>
-
-    <div class="digit">
-      <strong>6</strong>
-      <span>--%</span>
-    </div>
-
-    <div class="digit">
-      <strong>7</strong>
-      <span>--%</span>
-    </div>
-
-    <div class="digit">
-      <strong>8</strong>
-      <span>--%</span>
-    </div>
-
-    <div class="digit">
-      <strong>9</strong>
-      <span>--%</span>
-    </div>
-
-  </div>
 </div>
 
 <div class="grid">
 
-  <div class="card">
-    <h3>MATCHES</h3>
-    <div class="number">--%</div>
-  </div>
+<div class="card">
+<h3>MATCHES</h3>
+<div class="number" id="matches">--%</div>
+</div>
 
-  <div class="card">
-    <h3>DIFFERS</h3>
-    <div class="number">--%</div>
-  </div>
+<div class="card">
+<h3>DIFFERS</h3>
+<div class="number" id="differs">--%</div>
+</div>
 
-  <div class="card">
-    <h3>RECENT DIGITS</h3>
-    <div class="number">--</div>
-  </div>
+<div class="card">
+<h3>RECENT DIGITS</h3>
+<div class="number" id="recent">--</div>
+</div>
 
-  <div class="card">
-    <h3>MARKET STATUS</h3>
-    <div class="number">READY</div>
-  </div>
+<div class="card">
+<h3>MARKET STATUS</h3>
+<div class="number" id="marketStatus">READY</div>
+</div>
 
 </div>
 
 <div class="panel">
-  <h2>Trading Tools</h2>
 
-  <div class="buttons">
+<h2>Trading Tools</h2>
 
-    <a class="button deriv"
-       href="https://t.deriv.link?t=BDLEFSWB873B">
-       Open Deriv
-    </a>
+<div class="buttons">
 
-    <button class="button refresh"
-            onclick="location.reload()">
-       Refresh Dashboard
-    </button>
+<a class="button deriv"
+href="https://t.deriv.link?t=BDLEFSWB873B">
+Open Deriv
+</a>
 
-  </div>
+<button class="button refresh"
+onclick="location.reload()">
+Refresh
+</button>
+
+</div>
+
 </div>
 
 </main>
 
 <footer>
-© 2026 DBotProfit — Analysis workspace
+© 2026 DBotProfit — Live Analysis Workspace
 </footer>
+
+<script>
+
+const ws = new WebSocket(
+  "wss://api.derivws.com/trading/v1/options/ws/public"
+);
+
+let digits = [];
+let selectedSymbol = "1HZ10V";
+
+const statusEl = document.getElementById("status");
+const priceEl = document.getElementById("price");
+const lastDigitEl = document.getElementById("lastDigit");
+const recentEl = document.getElementById("recent");
+const matchesEl = document.getElementById("matches");
+const differsEl = document.getElementById("differs");
+const marketStatusEl = document.getElementById("marketStatus");
+
+function drawDigits(){
+
+  const container = document.getElementById("digits");
+
+  container.innerHTML = "";
+
+  for(let i=0;i<10;i++){
+
+    const count = digits.filter(d => d === i).length;
+
+    const percent = digits.length
+      ? ((count / digits.length) * 100).toFixed(1)
+      : "0.0";
+
+    container.innerHTML += `
+      <div class="digit">
+        <strong>${i}</strong>
+        <span>${percent}%</span>
+      </div>
+    `;
+  }
+
+  if(digits.length){
+
+    const last = digits[digits.length - 1];
+
+    const same = digits.filter(d => d === last).length;
+
+    const matchPercent =
+      ((same / digits.length) * 100).toFixed(1);
+
+    const differPercent =
+      (100 - Number(matchPercent)).toFixed(1);
+
+    matchesEl.textContent = matchPercent + "%";
+    differsEl.textContent = differPercent + "%";
+
+    recentEl.textContent =
+      digits.slice(-10).join(" ");
+  }
+}
+
+function subscribe(symbol){
+
+  selectedSymbol = symbol;
+
+  digits = [];
+
+  priceEl.textContent = "--";
+  lastDigitEl.textContent = "--";
+  matchesEl.textContent = "--%";
+  differsEl.textContent = "--%";
+  recentEl.textContent = "--";
+
+  ws.send(JSON.stringify({
+    ticks: symbol,
+    subscribe: 1
+  }));
+}
+
+ws.onopen = function(){
+
+  statusEl.textContent = "● LIVE";
+  marketStatusEl.textContent = "LIVE";
+
+  subscribe(selectedSymbol);
+};
+
+ws.onmessage = function(event){
+
+  const data = JSON.parse(event.data);
+
+  if(data.msg_type === "tick"){
+
+    const tick = data.tick;
+
+    const quote = Number(tick.quote);
+
+    priceEl.textContent = quote;
+
+    const decimalText = String(tick.quote);
+
+    const lastCharacter =
+      decimalText.replace(/\D/g,"").slice(-1);
+
+    const lastDigit = Number(lastCharacter);
+
+    if(!Number.isNaN(lastDigit)){
+
+      lastDigitEl.textContent = lastDigit;
+
+      digits.push(lastDigit);
+
+      if(digits.length > 100){
+        digits.shift();
+      }
+
+      drawDigits();
+    }
+  }
+
+  if(data.error){
+
+    statusEl.textContent = "● ERROR";
+
+    marketStatusEl.textContent = "ERROR";
+
+    console.log(data.error);
+  }
+};
+
+ws.onerror = function(){
+
+  statusEl.textContent = "● CONNECTION ERROR";
+
+  marketStatusEl.textContent = "OFFLINE";
+};
+
+ws.onclose = function(){
+
+  statusEl.textContent = "● DISCONNECTED";
+
+  marketStatusEl.textContent = "OFFLINE";
+};
+
+document.getElementById("market")
+.addEventListener("change",function(){
+
+  const symbol = this.value;
+
+  subscribe(symbol);
+
+});
+
+drawDigits();
+
+</script>
 
 </body>
 </html>
