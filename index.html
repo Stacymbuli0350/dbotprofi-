@@ -720,33 +720,23 @@ marketStatusEl.textContent =
 
 };
 
-}
+}function requestHistory(){
 
+  if(!ws || ws.readyState !== WebSocket.OPEN){
+    return;
+  }
 
-function requestHistory(){
-
-ws.send(
-JSON.stringify({
-
-ticks_history:
-selectedSymbol,
-
-end:
-"latest",
-
-count:
-100,
-
-style:
-"ticks",
-
-subscribe:
-0
-
-})
-);
+  ws.send(JSON.stringify({
+    ticks_history: selectedSymbol,
+    end: "latest",
+    count: 100,
+    style: "ticks"
+  }));
 
 }
+
+
+
 
 
 function subscribeTicks(){
