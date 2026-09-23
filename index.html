@@ -698,8 +698,9 @@ console.log(error);
 
 };
 
+ws.onerror = function(error){
 
-ws.onerror = function(){
+console.log("WebSocket ERROR:", error);
 
 statusEl.textContent =
 "● CONNECTION ERROR";
