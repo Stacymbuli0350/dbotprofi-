@@ -897,27 +897,121 @@ differs.toFixed(1)+"%";
 document.getElementById("even")
 .textContent =
 ((evenCount/digits.length)*100)
-.toFixed(1)+"%";
+function drawAnalysis(){
 
+const container = document.getElementById("digits");
+
+container.innerHTML = "";
+
+for(let i=0;i<10;i++){
+
+const count = digits.filter(d => d === i).length;
+
+const percent = digits.length
+? ((count / digits.length)*100).toFixed(1)
+: "0.0";
+
+container.innerHTML += `
+<div class="digit">
+<strong>${i}</strong>
+<span>${percent}%</span>
+</div>
+`;
+
+}
+
+if(!digits.length){
+return;
+}
+
+
+/* =========================
+   MATCHES / DIFFERS
+   ========================= */
+
+function calculateRange(range){
+
+const data = digits.slice(-range);
+
+if(!data.length){
+return {
+matches:0,
+differs:0
+};
+}
+
+const last = data[data.length - 1];
+
+const same = data.filter(
+d => d === last
+).length;
+
+const matches = (same / data.length) * 100;
+
+return {
+matches:matches,
+differs:100 - matches
+};
+
+}
+
+
+const a20 = calculateRange(20);
+const a50 = calculateRange(50);
+const a100 = calculateRange(100);
+
+
+/* CURRENT RANGE — 100 TICKS */
+
+document.getElementById("matches")
+.textContent = a100.matches.toFixed(1) + "%";
+
+document.getElementById("differs")
+.textContent = a100.differs.toFixed(1) + "%";
+
+
+/* EVEN / ODD */
+
+const evenCount =
+digits.filter(d => d % 2 === 0).length;
+
+const oddCount =
+digits.filter(d => d % 2 !== 0).length;
+
+
+/* OVER / UNDER */
+
+const overCount =
+digits.filter(d => d > 5).length;
+
+const underCount =
+digits.filter(d => d < 5).length;
+
+
+document.getElementById("even")
+.textContent =
+((evenCount / digits.length) * 100).toFixed(1) + "%";
 
 document.getElementById("odd")
 .textContent =
-((oddCount/digits.length)*100)
-.toFixed(1)+"%";
-
+((oddCount / digits.length) * 100).toFixed(1) + "%";
 
 document.getElementById("over")
 .textContent =
-((overCount/digits.length)*100)
-.toFixed(1)+"%";
-
+((overCount / digits.length) * 100).toFixed(1) + "%";
 
 document.getElementById("under")
 .textContent =
-((underCount/digits.length)*100)
-.toFixed(1)+"%";
+((underCount / digits.length) * 100).toFixed(1) + "%";
 
-}
+
+/* LOG FOR 20 / 50 / 100 */
+
+console.log("20 ticks:", a20);
+console.log("50 ticks:", a50);
+console.log("100 ticks:", a100);
+
+  }
 
 
 function drawRecent(){
