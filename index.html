@@ -3,544 +3,397 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>DBotProfit Live Analysis</title>
 
 <style>
-
 *{
   box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 body{
-  margin:0;
   font-family:Arial,sans-serif;
-  background:#080d18;
-  color:#fff;
+  background:#f4f7fb;
+  color:#111827;
 }
 
 header{
-  padding:18px;
-  border-bottom:1px solid #202a40;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.logo{
-  color:#35e0a1;
-  font-size:24px;
-  font-weight:bold;
-}
-
-.status{
-  color:#35e0a1;
-  font-size:13px;
-}
-
-main{
-  max-width:1100px;
-  margin:auto;
-  padding:20px;
-}
-
-h1{
-  margin:10px 0 5px;
-  font-size:28px;
-}
-
-.subtitle{
-  color:#8e9ab3;
-  margin-bottom:25px;
-}
-
-.panel{
-  background:#111a2d;
-  border:1px solid #202a40;
-  border-radius:15px;
-  padding:18px;
-  margin-bottom:18px;
-}
-
-select{
-  width:100%;
-  padding:13px;
-  background:#080d18;
+  background:#075985;
   color:white;
-  border:1px solid #34405c;
-  border-radius:9px;
-  font-size:16px;
-}
-
-.price{
-  font-size:36px;
-  font-weight:bold;
-  margin:15px 0 5px;
-}
-
-.last{
-  color:#35e0a1;
-  font-size:18px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:12px;
-}
-
-.card{
-  background:#0c1425;
-  border:1px solid #202a40;
-  border-radius:12px;
-  padding:15px;
-}
-
-.card h3{
-  margin:0 0 10px;
-  color:#9eabc3;
-  font-size:13px;
-}
-
-.number{
-  font-size:24px;
-  font-weight:bold;
-}
-
-.digits{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:8px;
-  margin-top:15px;
-}
-
-.digit{
-  background:#0b1220;
-  border:1px solid #293650;
-  border-radius:10px;
-  padding:12px 5px;
+  padding:18px;
   text-align:center;
 }
 
-.digit strong{
+header h1{
+  font-size:24px;
+  margin-bottom:6px;
+}
+
+.status{
+  font-size:13px;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:15px;
+}
+
+.card{
+  background:white;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:15px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+label{
+  font-size:13px;
+  font-weight:bold;
   display:block;
-  font-size:20px;
-  color:#35e0a1;
+  margin-bottom:7px;
 }
 
-.digit span{
-  font-size:12px;
-  color:#8e9ab3;
-}
-
-.chartBox{
+select,
+button{
   width:100%;
-  height:260px;
-  background:#080d18;
-  border:1px solid #202a40;
-  border-radius:12px;
-  padding:10px;
+  padding:12px;
+  border-radius:9px;
+  border:1px solid #d1d5db;
+  font-size:15px;
+}
+
+button{
+  background:#075985;
+  color:white;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.market-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.stat{
+  background:#f8fafc;
+  border-radius:10px;
+  padding:14px;
+  text-align:center;
+}
+
+.stat-title{
+  font-size:12px;
+  color:#64748b;
+  margin-bottom:6px;
+}
+
+.stat-value{
+  font-size:22px;
+  font-weight:bold;
+}
+
+.section-title{
+  font-size:17px;
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+.range-buttons{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.range-buttons button{
+  background:#e2e8f0;
+  color:#0f172a;
+}
+
+.range-buttons button.active{
+  background:#075985;
+  color:white;
 }
 
 canvas{
   width:100%;
-  height:100%;
+  height:250px;
+  display:block;
 }
 
-.recent{
+.digits{
   display:flex;
   flex-wrap:wrap;
   gap:7px;
-  margin-top:15px;
 }
 
-.recentDigit{
-  width:34px;
-  height:34px;
-  border-radius:8px;
-  background:#0b1220;
-  border:1px solid #293650;
+.digit{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e2e8f0;
   display:flex;
   align-items:center;
   justify-content:center;
   font-weight:bold;
-  color:#35e0a1;
 }
 
-.rangeButtons{
+.analysis-row{
   display:flex;
-  gap:8px;
-  margin-top:15px;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid #e5e7eb;
 }
 
-.rangeButtons button{
-  flex:1;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #34405c;
-  background:#1b263d;
-  color:white;
-  cursor:pointer;
+.analysis-row:last-child{
+  border-bottom:none;
 }
 
-.rangeButtons button.active{
-  background:#35e0a1;
-  color:#07131a;
-}
-
-.buttons{
+.actions{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.button{
-  display:block;
-  text-align:center;
-  padding:14px;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:bold;
-}
-
-.deriv{
-  background:#35e0a1;
-  color:#07131a;
-}
-
-.refresh{
-  background:#1b263d;
-  color:white;
-  border:1px solid #34405c;
-  cursor:pointer;
+  gap:10px;
 }
 
 footer{
   text-align:center;
-  padding:25px;
-  color:#66738d;
-  font-size:13px;
+  padding:20px;
+  font-size:12px;
+  color:#64748b;
 }
 
 @media(max-width:500px){
+  .container{
+    padding:10px;
+  }
 
-  .buttons{
+  .market-grid{
     grid-template-columns:1fr;
   }
-
-  .digits{
-    grid-template-columns:repeat(5,1fr);
-  }
-
 }
-
 </style>
 </head>
 
 <body>
 
 <header>
+  <h1>DBotProfit</h1>
 
-<div class="logo">
-DBotProfit
-</div>
-
-<div class="status" id="status">
-● Connecting...
-</div>
-
+  <div class="status" id="status">
+    ● Connecting...
+  </div>
 </header>
 
-<main>
+<div class="container">
 
-<h1>
-Live Trading Dashboard
-</h1>
+  <div class="card">
 
-<div class="subtitle">
-Real-time Deriv market analysis workspace
-</div>
+    <label for="market">
+      Synthetic Market
+    </label>
 
+    <select id="market">
 
-<!-- MARKET -->
+      <option value="1HZ10V">
+        Volatility 10 (1s)
+      </option>
 
-<div class="panel">
+      <option value="1HZ25V">
+        Volatility 25 (1s)
+      </option>
 
-<h3>Market</h3>
+      <option value="1HZ50V">
+        Volatility 50 (1s)
+      </option>
 
-<select id="market">
+      <option value="1HZ75V">
+        Volatility 75 (1s)
+      </option>
 
-<option value="1HZ10V">
-Volatility 10 Index
-</option>
+      <option value="1HZ100V">
+        Volatility 100 (1s)
+      </option>
 
-<option value="1HZ25V">
-Volatility 25 Index
-</option>
+    </select>
 
-<option value="1HZ50V">
-Volatility 50 Index
-</option>
+  </div>
 
-<option value="1HZ75V">
-Volatility 75 Index
-</option>
+  <div class="card">
 
-<option value="1HZ100V">
-Volatility 100 Index
-</option>
+    <div class="section-title">
+      Market Data
+    </div>
 
-</select>
+    <div class="stat-grid">
 
-<div class="price" id="price">
---
-</div>
+      <div class="stat">
 
-<div class="last">
-Last Digit:
-<span id="lastDigit">--</span>
-</div>
+        <div class="stat-title">
+          PRICE
+        </div>
 
-</div>
+        <div class="stat-value" id="price">
+          --
+        </div>
 
+      </div>
 
-<!-- CHART -->
+      <div class="stat">
 
-<div class="panel">
+        <div class="stat-title">
+          LAST DIGIT
+        </div>
 
-<h2>
-Live Price Chart
-</h2>
+        <div class="stat-value" id="lastDigit">
+          --
+        </div>
 
-<div class="chartBox">
+      </div>
 
-<canvas id="chart"></canvas>
+    </div>
 
-</div>
+  </div>
 
-</div>
+  <div class="card">
 
+    <div class="section-title">
+      Price Chart
+    </div>
 
-<!-- DIGIT STATISTICS -->
+    <canvas id="chart"></canvas>
 
-<div class="panel">
+  </div>
 
-<h2>
-Digit Statistics
-</h2>
+  <div class="card">
 
-<div class="digits" id="digits">
-</div>
+    <div class="section-title">
+      Digit Analysis
+    </div>
 
-</div>
+    <div class="range-buttons">
 
+      <button class="range active" data-range="20">
+        20
+      </button>
 
-<!-- ANALYSIS -->
+      <button class="range" data-range="50">
+        50
+      </button>
 
-<div class="grid">
+      <button class="range" data-range="100">
+        100
+      </button>
 
-<div class="card">
+    </div>
 
-<h3>
-MATCHES
-</h3>
+    <br>
 
-<div class="number" id="matches">
---%
-</div>
+    <div class="analysis-row">
+      <span>MATCHES</span>
+      <strong id="matches">--</strong>
+    </div>
 
-</div>
+    <div class="analysis-row">
+      <span>DIFFERS</span>
+      <strong id="differs">--</strong>
+    </div>
 
+    <div class="analysis-row">
+      <span>EVEN</span>
+      <strong id="even">--</strong>
+    </div>
 
-<div class="card">
+    <div class="analysis-row">
+      <span>ODD</span>
+      <strong id="odd">--</strong>
+    </div>
 
-<h3>
-DIFFERS
-</h3>
+    <div class="analysis-row">
+      <span>OVER</span>
+      <strong id="over">--</strong>
+    </div>
 
-<div class="number" id="differs">
---%
-</div>
+    <div class="analysis-row">
+      <span>UNDER</span>
+      <strong id="under">--</strong>
+    </div>
 
-</div>
+  </div>
 
+  <div class="card">
 
-<div class="card">
+    <div class="section-title">
+      Recent Digits
+    </div>
 
-<h3>
-EVEN
-</h3>
+    <div class="digits" id="recentDigits"></div>
 
-<div class="number" id="even">
---%
-</div>
+  </div>
 
-</div>
+  <div class="card">
 
+    <div class="section-title">
+      Market Status
+    </div>
 
-<div class="card">
+    <div class="analysis-row">
+      <span>Connection</span>
 
-<h3>
-ODD
-</h3>
+      <strong id="marketStatus">
+        CONNECTING
+      </strong>
+    </div>
 
-<div class="number" id="odd">
---%
-</div>
+  </div>
 
-</div>
+  <div class="card">
 
+    <div class="actions">
 
-<div class="card">
+      <button id="openDeriv">
+        Open Deriv
+      </button>
 
-<h3>
-OVER 5
-</h3>
+      <button id="refresh">
+        Refresh
+      </button>
 
-<div class="number" id="over">
---%
-</div>
+    </div>
 
-</div>
-
-
-<div class="card">
-
-<h3>
-UNDER 5
-</h3>
-
-<div class="number" id="under">
---%
-</div>
-
-</div>
-
-</div>
-
-
-<!-- RECENT DIGITS -->
-
-<div class="panel">
-
-<h2>
-Recent Digits
-</h2>
-
-<div class="rangeButtons">
-
-<button id="b20" class="active">
-20
-</button>
-
-<button id="b50">
-50
-</button>
-
-<button id="b100">
-100
-</button>
+  </div>
 
 </div>
-
-<div class="recent" id="recent">
-</div>
-
-</div>
-
-
-<!-- STATUS -->
-
-<div class="grid">
-
-<div class="card">
-
-<h3>
-TICKS RECEIVED
-</h3>
-
-<div class="number" id="tickCount">
-0
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h3>
-MARKET STATUS
-</h3>
-
-<div class="number" id="marketStatus">
-READY
-</div>
-
-</div>
-
-</div>
-
-
-<!-- TOOLS -->
-
-<div class="panel">
-
-<h2>
-Trading Tools
-</h2>
-
-<div class="buttons">
-
-<a
-class="button deriv"
-href="https://t.deriv.link?t=BDLEFSWB873B"
->
-Open Deriv
-</a>
-
-<button
-class="button refresh"
-onclick="location.reload()"
->
-Refresh
-</button>
-
-</div>
-
-</div>
-
-</main>
-
 
 <footer>
-
-© 2026 DBotProfit — Live Analysis Workspace
-
+  © 2026 DBotProfit — Live Analysis Workspace
 </footer>
 
-
-<script>
-
-const WS_URL =
+<script>const WS_URL =
 "wss://api.derivws.com/trading/v1/options/ws/public";
 
+let ws = null;
 
-let ws;
-
-let selectedSymbol =
-"1HZ10V";
+let selectedSymbol = "1HZ10V";
 
 let digits = [];
-
 let prices = [];
 
-let displayCount = 20;
-
-let tickCounter = 0;
-
+let selectedRange = 20;
 
 const statusEl =
 document.getElementById("status");
+
+const marketStatusEl =
+document.getElementById("marketStatus");
 
 const priceEl =
 document.getElementById("price");
@@ -548,714 +401,519 @@ document.getElementById("price");
 const lastDigitEl =
 document.getElementById("lastDigit");
 
-const marketStatusEl =
-document.getElementById("marketStatus");
-
-const tickCountEl =
-document.getElementById("tickCount");
-
-const chart =
-document.getElementById("chart");
-
-const ctx =
-chart.getContext("2d");
-
+const marketEl =
+document.getElementById("market");
 
 function connect(){
 
-if(ws){
+  if(ws){
+    try{
+      ws.close();
+    }catch(e){}
+  }
 
-try{
-ws.close();
-}catch(e){}
+  statusEl.textContent =
+  "● Connecting...";
+
+  marketStatusEl.textContent =
+  "CONNECTING";
+
+  ws = new WebSocket(WS_URL);
+
+  ws.onopen = function(){
+
+    statusEl.textContent =
+    "● Connected";
+
+    marketStatusEl.textContent =
+    "ONLINE";
+
+    requestHistory();
+    subscribeTicks();
+
+  };
+
+  ws.onmessage = function(event){
+
+    try{
+
+      const data =
+      JSON.parse(event.data);
+
+      if(data.history){
+
+        const history =
+        data.history;
+
+        digits = [];
+        prices = [];
+
+        const list =
+        history.prices || [];
+
+        const pipSize =
+        history.pip_size || 2;
+
+        list.forEach(function(price){
+
+          const value =
+          Number(price);
+
+          prices.push(value);
+
+          digits.push(
+            getLastDigit(value,pipSize)
+          );
+
+        });
+
+        drawAnalysis();
+        drawRecent();
+        drawChart();
+
+      }
+
+      if(data.tick){
+
+        const tick =
+        data.tick;
+
+        const quote =
+        Number(tick.quote);
+
+        const pipSize =
+        tick.pip_size || 2;
+
+        const digit =
+        getLastDigit(quote,pipSize);
+
+        priceEl.textContent =
+        quote;
+
+        lastDigitEl.textContent =
+        digit;
+
+        prices.push(quote);
+        digits.push(digit);
+
+        if(prices.length > 100){
+          prices.shift();
+        }
+
+        if(digits.length > 100){
+          digits.shift();
+        }
+
+        drawAnalysis();
+        drawRecent();
+        drawChart();
+
+      }
+
+    }catch(error){
+
+      console.log(error);
+
+    }
+
+  };
+
+  ws.onerror = function(){
+
+    statusEl.textContent =
+    "● CONNECTION ERROR";
+
+    marketStatusEl.textContent =
+    "OFFLINE";
+
+  };
+
+  ws.onclose = function(){
+
+    statusEl.textContent =
+    "● Disconnected";
+
+    marketStatusEl.textContent =
+    "OFFLINE";
+
+  };
 
 }
 
-statusEl.textContent =
-"● Connecting...";
+function requestHistory(){
 
-marketStatusEl.textContent =
-"CONNECTING";
-
-
-ws =
-new WebSocket(WS_URL);
-
-
-ws.onopen = function(){
-
-statusEl.textContent =
-"● LIVE";
-
-marketStatusEl.textContent =
-"LIVE";
-
-
-requestHistory();
-
-subscribeTicks();
-
-};
-
-
-ws.onmessage = function(event){
-
-try{
-
-const data =
-JSON.parse(event.data);
-
-
-if(data.msg_type === "history"){
-
-if(
-data.history &&
-Array.isArray(data.history.prices)
-){
-
-data.history.prices.forEach(function(price){
-
-addPrice(price);
-
-});
-
-}
-
-}
-
-
-if(data.msg_type === "tick"){
-
-if(!data.tick){
-return;
-}
-
-const quote =
-Number(data.tick.quote);
-
-if(!Number.isFinite(quote)){
-return;
-}
-
-
-priceEl.textContent =
-data.tick.quote;
-
-
-addPrice(quote);
-
-
-const digit =
-getLastDigit(
-data.tick.quote,
-data.tick.pip_size
-);
-
-
-if(digit !== null){
-
-digits.push(digit);
-
-if(digits.length > 100){
-
-digits.shift();
-
-}
-
-lastDigitEl.textContent =
-digit;
-
-tickCounter++;
-
-tickCountEl.textContent =
-tickCounter;
-
-drawAnalysis();
-
-drawRecent();
-
-}
-
-}
-
-if(data.error){
-
-statusEl.textContent =
-"● ERROR";
-
-marketStatusEl.textContent =
-"ERROR";
-
-console.log(data.error);
-
-}
-
-}catch(error){
-
-console.log(error);
-
-}
-
-};
-
-ws.onerror = function(error){
-
-console.log("WebSocket ERROR:", error);
-
-statusEl.textContent =
-"● CONNECTION ERROR";
-
-marketStatusEl.textContent =
-"OFFLINE";
-
-};
-
-
-ws.onclose = function(){
-
-statusEl.textContent =
-"● DISCONNECTED";
-
-marketStatusEl.textContent =
-"OFFLINE";
-
-};
-
-}
-  function requestHistory(){
-
-  if(!ws || ws.readyState !== WebSocket.OPEN){
+  if(!ws ||
+     ws.readyState !== WebSocket.OPEN){
     return;
   }
 
   ws.send(JSON.stringify({
-    ticks_history: selectedSymbol,
-    end: "latest",
-    count: 100,
-    style: "ticks"
+
+    ticks_history:
+    selectedSymbol,
+
+    end:"latest",
+
+    count:100,
+
+    style:"ticks"
+
   }));
 
 }
 
-
-
-
-
 function subscribeTicks(){
 
-ws.send(
-JSON.stringify({
+  if(!ws ||
+     ws.readyState !== WebSocket.OPEN){
+    return;
+  }
 
-ticks:
-selectedSymbol,
+  ws.send(JSON.stringify({
 
-subscribe:
-1
+    ticks:
+    selectedSymbol,
 
-})
-);
+    subscribe:1
 
-}
-
-
-function addPrice(price){
-
-prices.push(Number(price));
-
-if(prices.length > 100){
-
-prices.shift();
+  }));
 
 }
-
-drawChart();
-
-}
-
 
 function getLastDigit(quote,pipSize){
 
-let text =
-String(quote);
+  const fixed =
+  Number(quote).toFixed(pipSize);
 
-let clean =
-text.replace(/[^0-9]/g,"");
+  const clean =
+  fixed.replace(/[^0-9]/g,"");
 
-if(!clean){
-
-return null;
-
-}
-
-return Number(
-clean.charAt(clean.length - 1)
-);
+  return Number(
+    clean.charAt(clean.length - 1)
+  );
 
 }
-
-
-function drawAnalysis(){
-
-const container =
-document.getElementById("digits");
-
-container.innerHTML =
-"";
-
-
-for(let i=0;i<10;i++){
-
-const count =
-digits.filter(
-d => d === i
-).length;
-
-
-const percent =
-digits.length
-
-?
-((count / digits.length)*100)
-.toFixed(1)
-
-:
-"0.0";
-
-
-container.innerHTML += `
-
-<div class="digit">
-
-<strong>${i}</strong>
-
-<span>${percent}%</span>
-
-</div>
-
-`;
-
-}
-
-
-if(!digits.length){
-
-return;
-
-}
-
-
-const last =
-digits[digits.length - 1];
-
-
-const same =
-digits.filter(
-d => d === last
-).length;
-
-
-const matches =
-(same / digits.length)*100;
-
-
-const differs =
-100 - matches;
-
-
-const evenCount =
-digits.filter(
-d => d % 2 === 0
-).length;
-
-
-const oddCount =
-digits.filter(
-d => d % 2 !== 0
-).length;
-
-
-const overCount =
-digits.filter(
-d => d > 5
-).length;
-
-
-const underCount =
-digits.filter(
-d => d < 5
-).length;
-
-
-document.getElementById("matches")
-.textContent =
-matches.toFixed(1)+"%";
-
-
-document.getElementById("differs")
-.textContent =
-differs.toFixed(1)+"%";
-
-
-document.getElementById("even")
-.textContent =
-((evenCount/digits.length)*100)
-function drawAnalysis(){
-
-const container = document.getElementById("digits");
-
-container.innerHTML = "";
-
-for(let i=0;i<10;i++){
-
-const count = digits.filter(d => d === i).length;
-
-const percent = digits.length
-? ((count / digits.length)*100).toFixed(1)
-: "0.0";
-
-container.innerHTML += `
-<div class="digit">
-<strong>${i}</strong>
-<span>${percent}%</span>
-</div>
-`;
-
-}
-
-if(!digits.length){
-return;
-}
-
-
-/* =========================
-   MATCHES / DIFFERS
-   ========================= */
 
 function calculateRange(range){
 
-const data = digits.slice(-range);
+  const data =
+  digits.slice(-range);
 
-if(!data.length){
-return {
-matches:0,
-differs:0
-};
-}
+  if(data.length === 0){
 
-const last = data[data.length - 1];
-
-const same = data.filter(
-d => d === last
-).length;
-
-const matches = (same / data.length) * 100;
-
-return {
-matches:matches,
-differs:100 - matches
-};
-
-}
-
-
-const a20 = calculateRange(20);
-const a50 = calculateRange(50);
-const a100 = calculateRange(100);
-
-
-/* CURRENT RANGE — 100 TICKS */
-
-document.getElementById("matches")
-.textContent = a100.matches.toFixed(1) + "%";
-
-document.getElementById("differs")
-.textContent = a100.differs.toFixed(1) + "%";
-
-
-/* EVEN / ODD */
-
-const evenCount =
-digits.filter(d => d % 2 === 0).length;
-
-const oddCount =
-digits.filter(d => d % 2 !== 0).length;
-
-
-/* OVER / UNDER */
-
-const overCount =
-digits.filter(d => d > 5).length;
-
-const underCount =
-digits.filter(d => d < 5).length;
-
-
-document.getElementById("even")
-.textContent =
-((evenCount / digits.length) * 100).toFixed(1) + "%";
-
-document.getElementById("odd")
-.textContent =
-((oddCount / digits.length) * 100).toFixed(1) + "%";
-
-document.getElementById("over")
-.textContent =
-((overCount / digits.length) * 100).toFixed(1) + "%";
-
-document.getElementById("under")
-.textContent =
-((underCount / digits.length) * 100).toFixed(1) + "%";
-
-
-/* LOG FOR 20 / 50 / 100 */
-
-console.log("20 ticks:", a20);
-console.log("50 ticks:", a50);
-console.log("100 ticks:", a100);
+    return {
+      matches:0,
+      differs:0,
+      even:0,
+      odd:0,
+      over:0,
+      under:0
+    };
 
   }
 
+  const counts = {};
+
+  data.forEach(function(digit){
+
+    counts[digit] =
+    (counts[digit] || 0) + 1;
+
+  });
+
+  let highest =
+  Math.max(
+    ...Object.values(counts)
+  );
+
+  let matches =
+  (highest / data.length) * 100;
+
+  let differs =
+  100 - matches;
+
+  let evenCount =
+  data.filter(
+    d => d % 2 === 0
+  ).length;
+
+  let oddCount =
+  data.length - evenCount;
+
+  let overCount =
+  data.filter(
+    d => d > 4
+  ).length;
+
+  let underCount =
+  data.filter(
+    d => d < 5
+  ).length;
+
+  return {
+
+    matches:matches,
+
+    differs:differs,
+
+    even:
+    (evenCount / data.length) * 100,
+
+    odd:
+    (oddCount / data.length) * 100,
+
+    over:
+    (overCount / data.length) * 100,
+
+    under:
+    (underCount / data.length) * 100
+
+  };
+
+}
+
+function drawAnalysis(){
+
+  const result =
+  calculateRange(selectedRange);
+
+  document.getElementById("matches")
+  .textContent =
+  result.matches.toFixed(1) + "%";
+
+  document.getElementById("differs")
+  .textContent =
+  result.differs.toFixed(1) + "%";
+
+  document.getElementById("even")
+  .textContent =
+  result.even.toFixed(1) + "%";
+
+  document.getElementById("odd")
+  .textContent =
+  result.odd.toFixed(1) + "%";
+
+  document.getElementById("over")
+  .textContent =
+  result.over.toFixed(1) + "%";
+
+  document.getElementById("under")
+  .textContent =
+  result.under.toFixed(1) + "%";
+
+}
 
 function drawRecent(){
 
-const container =
-document.getElementById("recent");
+  const box =
+  document.getElementById(
+    "recentDigits"
+  );
 
-container.innerHTML =
-"";
+  box.innerHTML = "";
 
+  digits.slice(-20)
+  .reverse()
+  .forEach(function(digit){
 
-const recent =
-digits.slice(-displayCount);
+    const item =
+    document.createElement("div");
 
+    item.className =
+    "digit";
 
-recent.forEach(function(digit){
+    item.textContent =
+    digit;
 
-const item =
-document.createElement("div");
+    box.appendChild(item);
 
-item.className =
-"recentDigit";
+  });
 
-item.textContent =
-digit;
+}function resizeCanvas(){
 
-container.appendChild(item);
+  const canvas =
+  document.getElementById("chart");
 
-});
+  const rect =
+  canvas.getBoundingClientRect();
 
-}
+  const ratio =
+  window.devicePixelRatio || 1;
 
+  canvas.width =
+  rect.width * ratio;
 
-function resizeCanvas(){
+  canvas.height =
+  rect.height * ratio;
 
-const rect =
-chart.getBoundingClientRect();
+  const ctx =
+  canvas.getContext("2d");
 
-const ratio =
-window.devicePixelRatio || 1;
-
-chart.width =
-rect.width * ratio;
-
-chart.height =
-rect.height * ratio;
-
-ctx.setTransform(
-ratio,
-0,
-0,
-ratio,
-0,
-0
-);
-
-drawChart();
+  ctx.scale(ratio,ratio);
 
 }
-
 
 function drawChart(){
 
-if(!prices.length){
-return;
+  const canvas =
+  document.getElementById("chart");
+
+  const ctx =
+  canvas.getContext("2d");
+
+  const width =
+  canvas.clientWidth;
+
+  const height =
+  canvas.clientHeight;
+
+  if(!width || !height){
+    return;
+  }
+
+  ctx.clearRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+  if(prices.length < 2){
+    return;
+  }
+
+  const data =
+  prices.slice(-100);
+
+  const min =
+  Math.min(...data);
+
+  const max =
+  Math.max(...data);
+
+  const range =
+  max - min || 1;
+
+  ctx.beginPath();
+
+  data.forEach(function(value,index){
+
+    const x =
+    (index / (data.length - 1))
+    * width;
+
+    const y =
+    height -
+    ((value - min) / range)
+    * (height - 20) -
+    10;
+
+    if(index === 0){
+      ctx.moveTo(x,y);
+    }else{
+      ctx.lineTo(x,y);
+    }
+
+  });
+
+  ctx.strokeStyle =
+  "#075985";
+
+  ctx.lineWidth = 2;
+
+  ctx.stroke();
+
 }
 
+marketEl.addEventListener(
+  "change",
+  function(){
 
-const rect =
-chart.getBoundingClientRect();
+    selectedSymbol =
+    this.value;
 
-const width =
-rect.width;
+    digits = [];
+    prices = [];
 
-const height =
-rect.height;
+    priceEl.textContent =
+    "--";
 
+    lastDigitEl.textContent =
+    "--";
 
-ctx.clearRect(
-0,
-0,
-width,
-height
+    connect();
+
+  }
 );
-
-
-const min =
-Math.min(...prices);
-
-const max =
-Math.max(...prices);
-
-const range =
-max - min || 1;
-
-
-ctx.beginPath();
-
-
-prices.forEach(
-function(price,index){
-
-const x =
-(index/(prices.length-1 || 1))
-*width;
-
-
-const y =
-height -
-((price-min)/range)
-*(height-20)
--10;
-
-
-if(index===0){
-
-ctx.moveTo(x,y);
-
-}else{
-
-ctx.lineTo(x,y);
-
-}
-
-}
-);
-
-
-ctx.strokeStyle =
-"#35e0a1";
-
-ctx.lineWidth =
-2;
-
-ctx.stroke();
-
-}
-
 
 document
-.getElementById("market")
+.querySelectorAll(".range")
+.forEach(function(button){
+
+  button.addEventListener(
+    "click",
+    function(){
+
+      document
+      .querySelectorAll(".range")
+      .forEach(function(btn){
+
+        btn.classList.remove(
+          "active"
+        );
+
+      });
+
+      this.classList.add(
+        "active"
+      );
+
+      selectedRange =
+      Number(
+        this.dataset.range
+      );
+
+      drawAnalysis();
+
+    }
+  );
+
+});
+
+document
+.getElementById("openDeriv")
 .addEventListener(
-"change",
-function(){
+  "click",
+  function(){
 
-selectedSymbol =
-this.value;
+    window.open(
+      "https://t.deriv.link?t=BDLEFSWB873B",
+      "_blank"
+    );
 
-digits = [];
-
-prices = [];
-
-tickCounter = 0;
-
-priceEl.textContent =
-"--";
-
-lastDigitEl.textContent =
-"--";
-
-tickCountEl.textContent =
-"0";
-
-drawAnalysis();
-
-drawRecent();
-
-connect();
-
-}
+  }
 );
 
-
 document
-.getElementById("b20")
+.getElementById("refresh")
 .addEventListener(
-"click",
-function(){
+  "click",
+  function(){
 
-displayCount=20;
+    location.reload();
 
-setActiveButton("b20");
-
-drawRecent();
-
-}
+  }
 );
-
-
-document
-.getElementById("b50")
-.addEventListener(
-"click",
-function(){
-
-displayCount=50;
-
-setActiveButton("b50");
-
-drawRecent();
-
-}
-);
-
-
-document
-.getElementById("b100")
-.addEventListener(
-"click",
-function(){
-
-displayCount=100;
-
-setActiveButton("b100");
-
-drawRecent();
-
-}
-);
-
-
-function setActiveButton(id){
-
-document
-.querySelectorAll(".rangeButtons button")
-.forEach(
-button =>
-button.classList.remove("active")
-);
-
-document
-.getElementById(id)
-.classList.add("active");
-
-}
-
 
 window.addEventListener(
-"resize",
-resizeCanvas
-);
+  "resize",
+  function(){
 
+    resizeCanvas();
+    drawChart();
+
+  }
+);
 
 resizeCanvas();
 
@@ -1264,8 +922,7 @@ drawAnalysis();
 drawRecent();
 
 connect();
-
 </script>
 
 </body>
-  </html>
+</html>
