@@ -360,7 +360,7 @@ footer{
     <div class="actions">
 
       <button id="openDeriv">
-        Open Deriv
+        connect to deriv 
       </button>
 
       <button id="refresh">
@@ -886,10 +886,31 @@ document
   "click",
   function(){
 
-    window.open(
-      "https://t.deriv.link?t=BDLEFSWB873B",
-      "_blank"
+    const clientId =
+    "34rvl4rFhmcaGtKW1spfC";
+
+    const redirectUri =
+    "https://dbotprofit-b19b9.web.app/callback";
+
+    const state =
+    crypto.randomUUID();
+
+    sessionStorage.setItem(
+      "deriv_oauth_state",
+      state
     );
+
+    const authUrl =
+      "https://oauth.deriv.com/oauth2/authorize" +
+      "?app_id=" +
+      encodeURIComponent(clientId) +
+      "&redirect_uri=" +
+      encodeURIComponent(redirectUri) +
+      "&state=" +
+      encodeURIComponent(state);
+
+    window.location.href =
+      authUrl;
 
   }
 );
